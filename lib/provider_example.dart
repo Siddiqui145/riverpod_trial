@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_trial/models/api.dart';
@@ -18,5 +17,8 @@ final getDataProvider = FutureProvider((ref) async {
   const url = "https://dog.ceo/api/breeds/image/random";
   final response = await http.get(Uri.parse(url));
   return Dogs.fromJson(jsonDecode(response.body));
-  
+});
+
+final streamProvider = StreamProvider ((ref) async* {
+   yield [1,2,3,4,5];
 });
