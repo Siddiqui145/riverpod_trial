@@ -18,3 +18,21 @@ class Joke{
     );
   }
 }
+
+class Dogs{
+  final String message;
+  final String status;
+
+  Dogs({
+    required this.message,
+    required this.status,
+  });
+
+  factory Dogs.fromJson(Map<String, dynamic> data) {
+    return Dogs(
+      message: data['message'] as String,
+      status: data['status'] as String,
+      
+    );
+  }
+}
