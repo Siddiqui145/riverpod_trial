@@ -13,3 +13,10 @@ final fetchProvider = FutureProvider((ref) async {
   final response = await http.get(Uri.parse(url));
   return Joke.fromJson(jsonDecode(response.body));
 } );
+
+final getDataProvider = FutureProvider((ref) async {
+  const url = "https://dog.ceo/api/breeds/image/random";
+  final response = await http.get(Uri.parse(url));
+  return Dogs.fromJson(jsonDecode(response.body));
+  
+});
