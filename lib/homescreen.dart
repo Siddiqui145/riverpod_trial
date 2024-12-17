@@ -18,6 +18,7 @@ class Homescreen extends ConsumerWidget {
     final result = ref.watch(fetchProvider);
     final newData = ref.watch(getDataProvider);
     final streamdata = ref.watch(streamProvider);
+    final timedata = ref.watch(timeProvider);
 
     return Scaffold(
       backgroundColor: Colors.blueGrey.shade300,
@@ -74,7 +75,7 @@ class Homescreen extends ConsumerWidget {
                   ],
                 ), error: (error, stackTrace) => Text("Error : $error"), loading: () => const CircularProgressIndicator()),
             ),
-            const SizedBox(height: 25,),
+            const SizedBox(height: 15,),
             Center(
               child: streamdata.when(data: (data) {
                 return Text(data.toString());
@@ -83,6 +84,18 @@ class Homescreen extends ConsumerWidget {
               }, loading: () { 
                return Center(child: CircularProgressIndicator(),);
               } ),
+            ),
+            const SizedBox(height: 15,),
+            Center(
+              child: timedata.when(data: (dataa) {
+                return Text(dataa.toString());
+              }, error: (error, stackTrace) {
+                return Text(error.toString());
+              }, loading: () {
+                 return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }),
             )
             
           ],
