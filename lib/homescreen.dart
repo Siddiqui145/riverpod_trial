@@ -16,6 +16,11 @@ class Homescreen extends ConsumerWidget {
     final text2 = ref.read(readprovider);
     final count = ref.watch(countProvider) ?? '0';
 
+    final dataWidget = ref.watch(fetchProvider).when(data: (joke) => Text("${joke.setup}\n${joke.punchline}", style: TextStyle(fontSize: 16)),
+    error: (error, stackTrace) => Text(error.toString()),
+    loading: () => CircularProgressIndicator(),
+    );
+
     return Scaffold(
       backgroundColor: Colors.blueGrey.shade300,
       appBar: AppBar(
@@ -41,6 +46,8 @@ class Homescreen extends ConsumerWidget {
               TextButton(onPressed: () => updatevalue(ref, (int.tryParse(count.toString()) ?? 0) -1), child: Icon(Icons.remove), ),
             ],
           ),
+
+          Text(dataWidget.toString()),
           
         ],
       ),
