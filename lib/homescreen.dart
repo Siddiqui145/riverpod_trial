@@ -16,6 +16,7 @@ class Homescreen extends ConsumerWidget {
     final text2 = ref.read(readprovider);
     final count = ref.watch(countProvider) ?? '0';
     final result = ref.watch(fetchProvider);
+    final newData = ref.watch(getDataProvider);
 
     return Scaffold(
       backgroundColor: Colors.blueGrey.shade300,
@@ -57,6 +58,19 @@ class Homescreen extends ConsumerWidget {
                 Text("Joke ${joke.setup}"),
               ],
             ), error: (error, stackTrace) => Text("Error: $error"), loading: () => const CircularProgressIndicator()),
+          ),
+
+          const SizedBox(height: 25,),
+          Center(
+              child: newData.when(data: (dog) => Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.network(dog.message),
+                  const SizedBox(height: 10,),
+                  Text(dog.status)
+                ],
+              ), error: (error, stackTrace) => Text("Error : $error"), loading: () => const CircularProgressIndicator()),
           )
         ],
       ),
