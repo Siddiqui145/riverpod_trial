@@ -15,11 +15,7 @@ class Homescreen extends ConsumerWidget {
     final text1 = ref.watch(readprovider);
     final text2 = ref.read(readprovider);
     final count = ref.watch(countProvider) ?? '0';
-
-    final dataWidget = ref.watch(fetchProvider).when(data: (joke) => Text("${joke.setup}\n${joke.punchline}", style: TextStyle(fontSize: 16)),
-    error: (error, stackTrace) => Text(error.toString()),
-    loading: () => CircularProgressIndicator(),
-    );
+    final result = ref.watch(fetchProvider);
 
     return Scaffold(
       backgroundColor: Colors.blueGrey.shade300,
@@ -47,8 +43,21 @@ class Homescreen extends ConsumerWidget {
             ],
           ),
 
-          Text(dataWidget.toString()),
-          
+          const SizedBox(height: 20,),
+
+          Center(
+            child: result.when(data: (joke) => Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text("Joke type: ${joke.type}"),
+                const SizedBox(height: 10,),
+                Text("Joke PunchLine : ${joke.punchline}"),
+                const SizedBox(height: 10,),
+                Text("Joke ${joke.setup}"),
+              ],
+            ), error: (error, stackTrace) => Text("Error: $error"), loading: () => const CircularProgressIndicator()),
+          )
         ],
       ),
       
