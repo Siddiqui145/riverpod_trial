@@ -22,3 +22,7 @@ final getDataProvider = FutureProvider((ref) async {
 final streamProvider = StreamProvider ((ref) async* {
    yield [1,2,3,4,5];
 });
+
+final timeProvider = StreamProvider<DateTime>((ref) {
+  return Stream.periodic(const Duration(seconds: 1), (_) => DateTime.now());
+});
