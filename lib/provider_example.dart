@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_trial/models/api.dart';
+import 'package:riverpod_trial/todo_notifier.dart';
+import 'package:riverpod_trial/wishlist_state_notifier.dart';
 
 final readprovider = Provider<String>((ref) =>  "Hello, Riverpod");
 
@@ -26,3 +28,9 @@ final streamProvider = StreamProvider ((ref) async* {
 final timeProvider = StreamProvider<DateTime>((ref) {
   return Stream.periodic(const Duration(seconds: 1), (_) => DateTime.now());
 });
+
+final todoProvider = NotifierProvider <TodoNotifier, List<Todo>>(TodoNotifier.new);
+
+final wishlistProvider = StateNotifierProvider<WishlistNotifier, List<WishlistItem>>(
+  (ref) => WishlistNotifier(),
+);
