@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_trial/provider_example.dart';
+import 'package:riverpod_trial/todo_notifier.dart';
+import 'package:riverpod_trial/wishlist_state_notifier.dart';
 
 class Homescreen extends ConsumerWidget {
  const Homescreen({super.key});
@@ -25,80 +27,121 @@ class Homescreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text("Riverpod Examples"),
         centerTitle: true,
-        backgroundColor: Colors.red.shade200,
+        backgroundColor: Colors.black38,
+        actions: [
+
+          IconButton(onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => TodoListScreen()));
+          }, icon: const Icon(Icons.work)),
+
+          IconButton(onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const WishlistScreen()));
+          }, icon: const Icon(Icons.favorite))
+        ],
       ),
       
-      body: SingleChildScrollView(
-        child: Column(
-          
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20,),
-            Text("Simple Provider Watch Example : $text1"),
-            Text("Simple Provider Read Example : $text2"),
-            const SizedBox(height: 50,),
-            Center(child: Text(count.toString(), style: TextStyle(fontSize: 20),)),
-            //TextButton(onPressed: () => ref.read(countProvider.notifier).update((state) => value), child: Icon(Icons.add))
-            Row( 
-            mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(onPressed: () => updatevalue(ref, (int.tryParse(count.toString()) ?? 0) +1), child: Icon(Icons.add), ),
-                TextButton(onPressed: () => updatevalue(ref, (int.tryParse(count.toString()) ?? 0) -1), child: Icon(Icons.remove), ),
-              ],
-            ),
-        
-            const SizedBox(height: 20,),
-        
-            Center(
-              child: result.when(data: (joke) => Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+
+              const SizedBox(height: 20,),
+              Text("Simple Provider Watch Example : \n $text1"),
+              const SizedBox(height: 10,),
+              const Divider(thickness: 10,
+              color: Colors.black45,),
+              const SizedBox(height: 20,),
+              Text("Simple Provider Read Example : \n $text2"),
+              const SizedBox(height: 10,),
+              const Divider(thickness: 10,
+              color: Colors.black45,),
+              const SizedBox(height: 20,),
+
+              Center(child: Text(count.toString(), style: TextStyle(fontSize: 20),)),
+              //TextButton(onPressed: () => ref.read(countProvider.notifier).update((state) => value), child: Icon(Icons.add))
+              Row( 
+              mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Joke type: ${joke.type}"),
-                  const SizedBox(height: 10,),
-                  Text("Joke PunchLine : ${joke.punchline}"),
-                  const SizedBox(height: 10,),
-                  Text("Joke ${joke.setup}"),
+                  TextButton(onPressed: () => updatevalue(ref, (int.tryParse(count.toString()) ?? 0) +1), child: Icon(Icons.add), ),
+                  TextButton(onPressed: () => updatevalue(ref, (int.tryParse(count.toString()) ?? 0) -1), child: Icon(Icons.remove), ),
                 ],
-              ), error: (error, stackTrace) => Text("Error: $error"), loading: () => const CircularProgressIndicator()),
-            ),
-        
-            const SizedBox(height: 25,),
-            Center(
-                child: newData.when(data: (dog) => Column(
+              ),
+              const SizedBox(height: 10,),
+              const Divider(thickness: 10,
+              color: Colors.black45,),
+              const SizedBox(height: 20,),
+
+              Center(
+                child: result.when(data: (joke) => Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.network(dog.message),
+                    Text("Joke Type: ${joke.type}"),
                     const SizedBox(height: 10,),
-                    Text(dog.status)
+                    Text("Joke PunchLine : ${joke.punchline}"),
+                    const SizedBox(height: 10,),
+                    Text("Joke ${joke.setup}"),
                   ],
-                ), error: (error, stackTrace) => Text("Error : $error"), loading: () => const CircularProgressIndicator()),
-            ),
-            const SizedBox(height: 15,),
-            Center(
-              child: streamdata.when(data: (data) {
-                return Text(data.toString());
-              }, error: (error, stackTrace) {
-                return Text(error.toString());
-              }, loading: () { 
-               return Center(child: CircularProgressIndicator(),);
-              } ),
-            ),
-            const SizedBox(height: 15,),
-            Center(
-              child: timedata.when(data: (dataa) {
-                return Text(dataa.toString());
-              }, error: (error, stackTrace) {
-                return Text(error.toString());
-              }, loading: () {
-                 return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }),
-            )
-            
-          ],
+                ), error: (error, stackTrace) => Text("Error: $error"), loading: () => const CircularProgressIndicator()),
+              ),
+              const SizedBox(height: 10,),
+              const Divider(thickness: 10,
+              color: Colors.black45,),
+              const SizedBox(height: 20,),
+
+              Center(
+                  child: newData.when(data: (dog) => Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.network(dog.message),
+                      const SizedBox(height: 10,),
+                      //Text(dog.status)
+                    ],
+                  ), error: (error, stackTrace) => Text("Error : $error"), loading: () => const CircularProgressIndicator()),
+              ),
+
+              const SizedBox(height: 10,),
+              const Divider(thickness: 10,
+              color: Colors.black45,),
+              const SizedBox(height: 20,),
+
+              Center(
+                child: streamdata.when(data: (data) {
+                  return Text(data.toString());
+                }, error: (error, stackTrace) {
+                  return Text(error.toString());
+                }, loading: () { 
+                 return Center(child: CircularProgressIndicator(),);
+                } ),
+              ),
+
+              const SizedBox(height: 10,),
+              const Divider(thickness: 10,
+              color: Colors.black45,),
+              const SizedBox(height: 20,),
+
+              Center(
+                child: timedata.when(data: (dataa) {
+                  return Text(dataa.toString());
+                }, error: (error, stackTrace) {
+                  return Text(error.toString());
+                }, loading: () {
+                   return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }),
+              ),
+
+              const SizedBox(height: 10,),
+              const Divider(thickness: 10,
+              color: Colors.black45,),
+              const SizedBox(height: 20,),
+              
+            ],
+          ),
         ),
       ),
       
